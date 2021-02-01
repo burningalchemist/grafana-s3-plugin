@@ -44,6 +44,7 @@ export interface DataSourceOptions extends DataSourceJsonData {
   bucket: string;
   accessKey?: string;
   region: string;
+  profile: string;
 }
 
 /**

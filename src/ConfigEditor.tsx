@@ -99,6 +99,16 @@ export class ConfigEditor extends PureComponent<Props, State> {
         </div>
         <div className="gf-form">
           <FormField
+            label="Profile"
+            labelWidth={10}
+            inputWidth={20}
+            onChange={this.onSelectChange('profile')}
+            value={jsonData.profile || ''}
+            placeholder="Profile name"
+          />
+        </div>
+        <div className="gf-form">
+          <FormField
             label="Access Key ID"
             labelWidth={10}
             inputWidth={20}

@@ -10,6 +10,7 @@ interface Props {
   dsId: number;
   bucket: string;
   region: string;
+  profile: string;
 }
 
 interface State {
@@ -338,6 +339,7 @@ export class FileBrowser extends PureComponent<Props, State> {
                   dsId={dsId}
                   bucket={bucket}
                   region={region}
+                  profile={profile}
                   prefix={prefix}
                   refresh={this.refresh.bind(this)}
                 />

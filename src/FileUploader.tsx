@@ -17,6 +17,7 @@ interface Props {
   dsId: number;
   bucket: string;
   region: string;
+  profile: string;
   prefix: string;
   refresh: () => void;
 }
@@ -86,9 +87,11 @@ export const FileUploader: FC<Props> = props => {
           secretAccessKey: table.getColumn('SecretAccessKey').get(0),
           sessionToken: table.getColumn('SessionToken').get(0),
         });
+        profileCreds = new AWS.SharedIniFileCredentials({profile: props.profile});
         AWS.config.update({
           region: props.region,
-          credentials: credentials,
+//        credentials: credentials,
+          credentials: profileCreds,
         });
         setProgress({
           busy: true,

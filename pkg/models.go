@@ -17,6 +17,7 @@ type S3DataSource struct {
 	settings struct {
 		Bucket    string `json:"bucket" binding:"Required"`
 		Region    string `json:"region" binding:"Required"`
+		Profile   string `json:"profile"`
 		AccessKey string `json:"accessKey"`
 	}
 }

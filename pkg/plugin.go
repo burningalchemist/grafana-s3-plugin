@@ -45,6 +45,12 @@ func (ds *S3DataSource) authenticate(ctx context.Context, req *backend.QueryData
 		}
 	}
 
+	if ds.settings.Profile != "" {
+		if profile, found := req.PluginContext.DataSourceInstanceSettings.JSONData["profile"]; found {
+			config.Credentials = credentials.NewSharedCredentials(defaults.SharedCredentialsFilename(), profile)
+		}
+	}
+
 	sess, err := session.NewSession()
 	if err != nil {
 		return err
@@ -147,6 +153,12 @@ func (ds *S3DataSource) CheckHealth(ctx context.Context, req *backend.CheckHealt
 	if ds.settings.AccessKey != "" {
 		if secretKey, found := req.PluginContext.DataSourceInstanceSettings.DecryptedSecureJSONData["secretKey"]; found {
 			config.Credentials = credentials.NewStaticCredentials(ds.settings.AccessKey, secretKey, "")
+		}
+	}
+
+	if ds.settings.Profile != "" {
+		if profile, found := req.PluginContext.DataSourceInstanceSettings.JSONData["profile"]; found {
+			config.Credentials = credentials.NewSharedCredentials(defaults.SharedCredentialsFilename(), profile)
 		}
 	}
 
