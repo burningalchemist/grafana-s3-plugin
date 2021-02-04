@@ -10,7 +10,6 @@ import (
 	"github.com/aws/aws-sdk-go/service/sts"
 )
 
-
 func stsSession(ctx context.Context, svc *sts.STS, query *Query) (*data.Frame, error) {
 	result, err := svc.GetSessionTokenWithContext(ctx, &sts.GetSessionTokenInput{
 		DurationSeconds: aws.Int64(900),

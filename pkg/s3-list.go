@@ -13,8 +13,8 @@ import (
 
 func s3List(ctx context.Context, svc *s3.S3, query *Query) (*data.Frame, error) {
 	result, err := svc.ListObjectsV2WithContext(ctx, &s3.ListObjectsV2Input{
-		Bucket: aws.String(query.Bucket),
-		Prefix: aws.String(query.Path),
+		Bucket:    aws.String(query.Bucket),
+		Prefix:    aws.String(query.Path),
 		Delimiter: aws.String("/"),
 	})
 	if err != nil {
@@ -29,7 +29,7 @@ func s3List(ctx context.Context, svc *s3.S3, query *Query) (*data.Frame, error) 
 	size := make([]*int64, 0)
 	for _, prefix := range result.CommonPrefixes {
 		parts := strings.Split(*prefix.Prefix, "/")
-		part := parts[len(parts) - 2]
+		part := parts[len(parts)-2]
 		folders = append(folders, part)
 		if formatted {
 			part = part + ",type=folder,key=" + *prefix.Prefix
@@ -40,7 +40,7 @@ func s3List(ctx context.Context, svc *s3.S3, query *Query) (*data.Frame, error) 
 	}
 	for _, object := range result.Contents {
 		parts := strings.Split(*object.Key, "/")
-		part := parts[len(parts) - 1]
+		part := parts[len(parts)-1]
 		if formatted {
 			part = part + ",type=file,key=" + *object.Key
 		}
@@ -67,7 +67,7 @@ func s3List(ctx context.Context, svc *s3.S3, query *Query) (*data.Frame, error) 
 	}
 	frame.Fields[2].Config = &data.FieldConfig{
 		Custom: map[string]interface{}{"width": 100, "align": "left"},
-		Unit:  "bytes",
+		Unit:   "bytes",
 	}
 
 	frame.Meta = &data.FrameMeta{

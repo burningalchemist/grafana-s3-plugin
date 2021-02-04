@@ -13,15 +13,15 @@ import (
 func s3Delete(ctx context.Context, svc *s3.S3, query *Query) (*data.Frame, error) {
 	folder := strings.Contains(query.Query, "folder")
 
-	if (folder) {
-	        objects, err := svc.ListObjectsV2WithContext(ctx, &s3.ListObjectsV2Input{
-        	        Bucket: aws.String(query.Bucket),
-                	Prefix: aws.String(query.Path),
-	                Delimiter: aws.String("/"),
-        	})
-	        if err != nil {
-        	        return nil, err
-	        }
+	if folder {
+		objects, err := svc.ListObjectsV2WithContext(ctx, &s3.ListObjectsV2Input{
+			Bucket:    aws.String(query.Bucket),
+			Prefix:    aws.String(query.Path),
+			Delimiter: aws.String("/"),
+		})
+		if err != nil {
+			return nil, err
+		}
 
 		ids := make([]*s3.ObjectIdentifier, 0)
 		for _, object := range objects.Contents {
@@ -40,7 +40,7 @@ func s3Delete(ctx context.Context, svc *s3.S3, query *Query) (*data.Frame, error
 	} else {
 		_, err := svc.DeleteObjectWithContext(ctx, &s3.DeleteObjectInput{
 			Bucket: aws.String(query.Bucket),
-			Key: aws.String(query.Path),
+			Key:    aws.String(query.Path),
 		})
 		if err != nil {
 			return nil, err
