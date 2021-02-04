@@ -28,7 +28,7 @@ interface Progress {
   progress: number;
 }
 
-export const FileUploader: FC<Props> = props => {
+export const FileUploader: FC<Props> = (props) => {
   const [errors, _setErrors] = useState<string[]>([]);
 
   const setError = (error: string) => {
@@ -75,7 +75,7 @@ export const FileUploader: FC<Props> = props => {
           ],
         },
       })
-      .then(response => {
+      .then((response) => {
         setProgress({
           busy: true,
           message: 'Authenticating',
@@ -117,7 +117,7 @@ export const FileUploader: FC<Props> = props => {
           ACL: 'private',
         },
       })
-        .on('httpUploadProgress', function(evt) {
+        .on('httpUploadProgress', function (evt) {
           setProgress({
             busy: true,
             message: 'Uploading (' + i + ' of ' + n + '): "' + file.name + '"',
@@ -195,10 +195,12 @@ export const FileUploader: FC<Props> = props => {
           </Box>,
         ]}
       </Box>
-      {errors.map(err => (
-        <Typography variant="body2" noWrap={true} color="error">
-          {err}
-        </Typography>
+      {errors.map((err) => (
+        <Box width="calc(100% - 200px)" key="errors">
+          <Typography variant="body2" noWrap={true} color="error">
+            {err}
+          </Typography>
+        </Box>
       ))}
     </div>
   );

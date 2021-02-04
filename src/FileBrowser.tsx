@@ -56,7 +56,7 @@ export class FileBrowser extends PureComponent<Props, State> {
       window.location.search
         .substr(1)
         .split('&')
-        .forEach(part => {
+        .forEach((part) => {
           const item = part.split('=');
           params[item[0]] = decodeURIComponent(item[1]);
         });
@@ -123,7 +123,7 @@ export class FileBrowser extends PureComponent<Props, State> {
           ],
         },
       })
-      .then(response => {
+      .then((response) => {
         const b64 = response.data.results.A.dataframes[0];
         const table = base64StringToArrowTable(b64);
         const frame = arrowTableToDataFrame(table);
@@ -200,7 +200,7 @@ export class FileBrowser extends PureComponent<Props, State> {
                     ],
                   },
                 })
-                .then(response => {
+                .then((response) => {
                   this.listFiles(this.state.prefix);
                 });
             };
@@ -235,8 +235,8 @@ export class FileBrowser extends PureComponent<Props, State> {
   };
 
   onBreadcrumbClick = (event: any) => {
-    event.preventDefault ? event.preventDefault() : 0;
-    event.stopPropagation ? event.stopPropagation() : 0;
+    //event.preventDefault ? event.preventDefault() : 0;
+    //event.stopPropagation ? event.stopPropagation() : 0;
 
     const prefix = event.target.getAttribute('data-prefix');
     if (prefix !== this.state.prefix) {
@@ -308,7 +308,7 @@ export class FileBrowser extends PureComponent<Props, State> {
             title="File Explorer"
             subtitle={
               <Breadcrumbs maxItems={4} aria-label="breadcrumb">
-                {crumbs.slice(0, crumbs.length - 1).map(part => {
+                {crumbs.slice(0, crumbs.length - 1).map((part) => {
                   return (
                     <a href="#" data-prefix={part.value} onClick={this.onBreadcrumbClick} key={part.value}>
                       {part.label}
