@@ -18,7 +18,7 @@
     "@types/lodash": "latest"
   },
   "engines": {
-    "node": ">=12 <13"
+    "node": ">=12 <16"
   },
   "dependencies": {
     "@material-ui/core": "^4.11.0",
