@@ -13,6 +13,7 @@ import (
 
 	"github.com/aws/aws-sdk-go/aws"
 	"github.com/aws/aws-sdk-go/aws/credentials"
+	"github.com/aws/aws-sdk-go/aws/defaults"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
 	"github.com/aws/aws-sdk-go/service/sts"
@@ -46,9 +47,7 @@ func (ds *S3DataSource) authenticate(ctx context.Context, req *backend.QueryData
 	}
 
 	if ds.settings.Profile != "" {
-		if profile, found := req.PluginContext.DataSourceInstanceSettings.JSONData["profile"]; found {
-			config.Credentials = credentials.NewSharedCredentials(defaults.SharedCredentialsFilename(), profile)
-		}
+		config.Credentials = credentials.NewSharedCredentials(defaults.SharedCredentialsFilename(), ds.settings.Profile)
 	}
 
 	sess, err := session.NewSession()
@@ -157,9 +156,7 @@ func (ds *S3DataSource) CheckHealth(ctx context.Context, req *backend.CheckHealt
 	}
 
 	if ds.settings.Profile != "" {
-		if profile, found := req.PluginContext.DataSourceInstanceSettings.JSONData["profile"]; found {
-			config.Credentials = credentials.NewSharedCredentials(defaults.SharedCredentialsFilename(), profile)
-		}
+		config.Credentials = credentials.NewSharedCredentials(defaults.SharedCredentialsFilename(), ds.settings.Profile)
 	}
 
 	sess, err := session.NewSession()

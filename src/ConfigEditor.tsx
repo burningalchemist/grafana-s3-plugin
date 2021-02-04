@@ -102,7 +102,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
             label="Profile"
             labelWidth={10}
             inputWidth={20}
-            onChange={this.onSelectChange('profile')}
+            onChange={this.onOptionChange('profile')}
             value={jsonData.profile || ''}
             placeholder="Profile name"
           />
@@ -136,6 +136,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
         dsId={options.id}
         bucket={jsonData.bucket || ''}
         region={jsonData.region || Regions[0].value}
+        profile={jsonData.profile || ''}
       />,
     ];
   }

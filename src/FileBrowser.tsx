@@ -274,7 +274,7 @@ export class FileBrowser extends PureComponent<Props, State> {
   };
 
   render() {
-    const { orgId, dsId, bucket, region } = this.props;
+    const { orgId, dsId, bucket, region, profile } = this.props;
     const { explore, prefix, dirty, files, hints } = this.state;
 
     const crumbs = this.state.prefix.split('/').map((part, i) => {
