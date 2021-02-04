@@ -48,7 +48,6 @@ export const FileUploader: FC<Props> = (props) => {
   };
 
   let credentials: any = undefined;
-  let profileCreds: any = undefined;
   const authenticate = () => {
     if (credentials && !credentials.expired) {
       return Promise.resolve();
@@ -88,11 +87,9 @@ export const FileUploader: FC<Props> = (props) => {
           secretAccessKey: table.getColumn('SecretAccessKey').get(0),
           sessionToken: table.getColumn('SessionToken').get(0),
         });
-        profileCreds = new AWS.SharedIniFileCredentials({ profile: props.profile });
         AWS.config.update({
           region: props.region,
-          //        credentials: credentials,
-          credentials: profileCreds,
+          credentials: credentials,
         });
         setProgress({
           busy: true,
