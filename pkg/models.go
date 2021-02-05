@@ -9,6 +9,7 @@ import (
 	"github.com/aws/aws-sdk-go/service/sts"
 )
 
+// S3DataSource is struct to manage connections to S3 buckets
 type S3DataSource struct {
 	im instancemgmt.InstanceManager
 
@@ -22,6 +23,7 @@ type S3DataSource struct {
 	}
 }
 
+// Query is a struct to interact with S3 Select API
 type Query struct {
 	Bucket      string `json:"-"`
 	Path        string `json:"path"`

@@ -109,7 +109,13 @@ func (ds *S3DataSource) query(ctx context.Context, dataQuery backend.DataQuery) 
 			return response
 		}
 		response.Frames = append(response.Frames, frame)
-	} else if strings.HasPrefix(query.Query, "UPLOAD") {
+	} else if strings.HasPrefix(query.Query, "UPLOAD PROFILE") {
+		frame, response.Error = credsProfile(ctx, ds.settings.Profile, &query)
+		if response.Error != nil {
+			return response
+		}
+		response.Frames = append(response.Frames, frame)
+	} else if strings.HasPrefix(query.Query, "UPLOAD SESSION") {
 		frame, response.Error = stsSession(ctx, ds.sts, &query)
 		if response.Error != nil {
 			return response
