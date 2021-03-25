@@ -33,17 +33,22 @@ export class QueryEditor extends PureComponent<Props, State> {
     };
   }
 
-  onInputChange = (what: string) => (event: ChangeEvent<HTMLInputElement>) => {
+  onInputChange = (what: string, submit?: boolean) => (event: ChangeEvent<HTMLInputElement>) => {
     const { onChange, query, onRunQuery } = this.props;
 
     const _query: any = {
       ...query,
     };
     _query[what] = event.target.value;
-    onChange(_query);
 
-    // executes the query
-    onRunQuery();
+    if (onChange) {
+      onChange(_query);
+
+      // executes the query
+      if (submit && onRunQuery) {
+        onRunQuery();
+      }
+    }
   };
 
   onIntInputChange = (what: string) => (event: ChangeEvent<HTMLInputElement>) => {
@@ -105,6 +110,7 @@ export class QueryEditor extends PureComponent<Props, State> {
       json_time_field,
       json_time_month_first,
       json_time_bucket,
+      group_by_field,
     } = defaults(this.props.query, defaultQuery);
 
     const { compression, format, json_type, csv_file_header_info } = this.state;
@@ -115,6 +121,7 @@ export class QueryEditor extends PureComponent<Props, State> {
     `;
 
     let json_time_field_enable = this.props.query.json_time_field_enable || !!json_time_field;
+    let group_by_field_enable = this.props.query.group_by_field_enable || !!group_by_field;
 
     return (
       <>
@@ -127,6 +134,7 @@ export class QueryEditor extends PureComponent<Props, State> {
             `}
             value={path}
             onChange={this.onInputChange('path')}
+            onBlur={this.onInputChange('path', true)}
             label="Path"
             tooltip="Path of object that is queried."
           />
@@ -161,6 +169,7 @@ export class QueryEditor extends PureComponent<Props, State> {
             `}
             value={query}
             onChange={this.onInputChange('query')}
+            onBlur={this.onInputChange('query', true)}
             label="Query"
             tooltip="The expression that is used to query the object."
           />
@@ -305,6 +314,29 @@ export class QueryEditor extends PureComponent<Props, State> {
             )}
           </>
         )}
+        <>
+          <div className={sectionHeader}>Group By</div>
+          <div className="gf-form">
+            <FormField
+              labelWidth={10}
+              label="Field"
+              tooltip="The field to group by"
+              value={group_by_field}
+              onChange={this.onInputChange('group_by_field')}
+            />
+            <FormField
+              labelWidth={10}
+              label="Enabled"
+              inputEl={
+                <Switch
+                  label=""
+                  checked={group_by_field_enable}
+                  onChange={this.onSwitchChange('group_by_field_enable')}
+                />
+              }
+            />
+          </div>
+        </>
       </>
     );
   }

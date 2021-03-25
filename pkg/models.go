@@ -25,11 +25,12 @@ type S3DataSource struct {
 
 // Query is a struct to interact with S3 Select API
 type Query struct {
-	Bucket      string `json:"-"`
-	Path        string `json:"path"`
-	Format      string `json:"format"`
-	Compression string `json:"compression"`
-	Query       string `json:"query"`
+	Bucket       string `json:"-"`
+	Path         string `json:"path"`
+	Format       string `json:"format"`
+	Compression  string `json:"compression"`
+	Query        string `json:"query"`
+	GroupByField string `json:"-"`
 
 	CSVAllowQuotedRecordDelimiter bool   `json:"csv_allow_quoted_record_delimiter"`
 	CSVComments                   string `json:"csv_comments"`

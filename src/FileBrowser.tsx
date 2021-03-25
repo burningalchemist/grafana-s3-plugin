@@ -30,10 +30,10 @@ export class FileBrowser extends PureComponent<Props, State> {
   };
 
   icons: any = {
-    folder: '🗀 ',
-    file: '🖹 ',
-    error: '⚠ ',
-    delete: '🗑 ',
+    folder: '📂 ',
+    file: '📄 ',
+    error: '⚠️ ',
+    delete: '🗑',
   };
 
   constructor(props: Props) {
@@ -206,7 +206,7 @@ export class FileBrowser extends PureComponent<Props, State> {
             };
           }
 
-          return [{ onClick: onClick, title: 'Delete' }];
+          //return [{ onClick: onClick, title: 'Delete' }];
 
           if (onClick) {
             return [{ onClick: onClick, title: 'Delete' }];
@@ -235,8 +235,8 @@ export class FileBrowser extends PureComponent<Props, State> {
   };
 
   onBreadcrumbClick = (event: any) => {
-    //event.preventDefault ? event.preventDefault() : 0;
-    //event.stopPropagation ? event.stopPropagation() : 0;
+    //    event.preventDefault ? event.preventDefault() : 0;
+    //    event.stopPropagation ? event.stopPropagation() : 0;
 
     const prefix = event.target.getAttribute('data-prefix');
     if (prefix !== this.state.prefix) {

@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"context"
+	"errors"
 	"fmt"
 	"io"
 	"time"
@@ -15,6 +16,7 @@ import (
 
 	"github.com/KamalGalrani/dateparse"
 	"github.com/tobgu/qframe"
+	"github.com/tobgu/qframe/config/groupby"
 )
 
 // Gets S3 Select params for data query
@@ -173,11 +175,17 @@ func s3SelectBase(ctx context.Context, svc *s3.S3, params *s3.SelectObjectConten
 	return &df, nil
 }
 
-func s3SelectQuery(ctx context.Context, svc *s3.S3, params *s3.SelectObjectContentInput) (*data.Frame, error) {
+func s3SelectQuery(ctx context.Context, svc *s3.S3, params *s3.SelectObjectContentInput, groupByField string) (*data.Frame, error) {
 	dfWoTypes, err := s3SelectBase(ctx, svc, params)
 	if err != nil {
 		return nil, err
 	}
+
+	if groupByField != "" {
+		GroupByField(ctx, dfWoTypes, groupByField)
+
+	}
+
 	// The following hack guesses parameter types
 	reader, writer := io.Pipe()
 	defer reader.Close()
@@ -276,11 +284,17 @@ func s3SelectTime(ctx context.Context, svc *s3.S3, params *s3.SelectObjectConten
 	return nil
 }
 
+func GroupByField(ctx context.Context, frame *qframe.QFrame, field string) (*qframe.QFrame, error) {
+	frame.GroupBy(groupby.Columns(field))
+	err := errors.New("Not implemented")
+	return frame, err
+}
+
 func s3Select(ctx context.Context, svc *s3.S3, query *Query) (*data.Frame, error) {
 	// TODO: Add support for time filter
 	// TODO: Add support for reading multipart
 	queryParams := getS3SelectQueryParams(query)
-	frame, err := s3SelectQuery(ctx, svc, queryParams)
+	frame, err := s3SelectQuery(ctx, svc, queryParams, query.GroupByField)
 	if err != nil {
 		return nil, err
 	}
@@ -292,6 +306,10 @@ func s3Select(ctx context.Context, svc *s3.S3, query *Query) (*data.Frame, error
 			return nil, err
 		}
 	}
+
+	//	if query.GroupByField != "" {
+	//	groupByField(ctx, frame, query.GroupByField)
+	//	}
 
 	return frame, nil
 }

@@ -17,6 +17,8 @@ export interface Query extends DataQuery {
   json_time_field: string;
   json_time_month_first: boolean;
   json_time_bucket: number;
+  group_by_field: string;
+  group_by_field_enable: boolean;
 }
 
 export const defaultQuery: Partial<Query> = {
@@ -35,6 +37,8 @@ export const defaultQuery: Partial<Query> = {
   json_time_field: '',
   json_time_month_first: false,
   json_time_bucket: 1000000,
+  group_by_field: '',
+  group_by_field_enable: false,
 };
 
 /**
